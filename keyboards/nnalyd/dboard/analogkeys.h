@@ -17,9 +17,10 @@ extern analog_config g_config;
 
 typedef struct {
     /* For individual analog key data */
-    uint16_t value;
-    uint8_t extremum;
-    int16_t offset;
-    bool    static_actuation;
+    uint16_t current;
+    uint16_t max;
+    uint16_t extremum;
+    bool continuous_dynamic_actuation;
 } analog_key_t;
 extern analog_key_t keys[MATRIX_ROWS][MATRIX_COLS];
+

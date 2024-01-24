@@ -31,22 +31,16 @@ void bootmagic_lite(void) {
 #    ifdef DEBUG_ENABLE
 deferred_token debug_token;
 bool           debug_print(void) {
-    for (uint8_t channel = 0; channel < MUX_CHANNELS; channel++) {
-        uint8_t channel_greycoded = (channel >> 1) ^ channel;
-        select_mux(channel_greycoded);
-        for (uint8_t mux = 0; mux < MUXES; mux++) {
-            uint8_t current_row = mux_index[mux][channel_greycoded].row;
-            uint8_t current_col = mux_index[mux][channel_greycoded].col;
+    select_mux(1);
+    uint8_t current_row = mux_index[0][1].row;
+    uint8_t current_col = mux_index[0][1].col;
 
-            if (current_row == 255 || current_col == 255) continue;
-            pin_t pin = mux_pins[mux];
+    pin_t pin = mux_pins[0];
 
-            analog_key_t *key = &keys[current_row][current_col];
-            int16_t     value = analogReadPin(pin);
-            key->value = value;
-        }
-    }
-    printf("%u ", keys[2][3].value);
+    analog_key_t *key = &keys[current_row][current_col];
+    int16_t     value = analogReadPin(pin);
+    key->current = value;
+    printf("%u ", keys[0][0].current);
     //printf("\n");
     //printf("%3d ", keys[1][3].value);
     //printf("\n");

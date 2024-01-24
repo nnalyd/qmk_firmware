@@ -9,6 +9,7 @@
 #include "scanfunctions.h"
 
 analog_key_t keys[MATRIX_ROWS][MATRIX_COLS] = {0};
+uint16_t max_key = 0;
 
 void matrix_init_custom(void) {
     //generate_lut();
@@ -33,9 +34,15 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
             pin_t pin = mux_pins[mux];
 
             analog_key_t *key = &keys[current_row][current_col];
-            key->value = analogReadPin(pin);
+            key->current = analogReadPin(pin);
+
+            // Check if the current key is the highest
+            if (key->current > key->max) {
+                key->max = key->current;
+            }
 
             matrix_read_cols_static_actuation(&current_matrix[current_row], current_col, key);
+            //matrix_read_cols_continuous_dynamic_actuation(&current_matrix[current_row], current_col, key);
         }
     }
     return memcmp(previous_matrix, current_matrix, sizeof(previous_matrix)) != 0;

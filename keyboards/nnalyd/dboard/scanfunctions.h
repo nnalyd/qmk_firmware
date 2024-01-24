@@ -7,4 +7,8 @@ void register_key(matrix_row_t *current_row, uint8_t current_col);
 
 void deregister_key(matrix_row_t *current_row, uint8_t current_col);
 
+void update_extremum(analog_key_t *key);
+
+void matrix_read_cols_continuous_dynamic_actuation(matrix_row_t *current_row, uint8_t current_col, analog_key_t *key);
+
 void matrix_read_cols_static_actuation(matrix_row_t *current_row, uint8_t current_col, analog_key_t *key);
