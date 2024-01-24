@@ -1,0 +1,20 @@
+#pragma once
+
+#define MATRIX_ROWS 5
+#define MATRIX_COLS 14
+
+#define MUXES 5
+#define MUX_PINS {A0, A1, B1, B12, B13}
+#define MUX_SELECTOR_BITS 4
+#define MUX_SELECTOR_PINS {A9, A8, B14, B15}
+
+#define MUX_CHANNELS (1 << MUX_SELECTOR_BITS)
+
+#define EECONFIG_KB_DATA_SIZE 6
+
+#define DEBUG_MATRIX_SCAN_RATE
+#define DEBUG_ENABLE
+
+#define ADC_RESOLUTION 12
+
+#define CALIBRATION_RANGE 255
