@@ -15,7 +15,7 @@ void matrix_init_custom(void) {
     multiplexer_init();
 
     //get_sensor_offsets();
-    wait_ms(100); // Let ADC reach steady state
+    // wait_ms(100); // Let ADC reach steady state
     //get_sensor_offsets();
 }
 
@@ -25,7 +25,7 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     for (uint8_t channel = 0; channel < MUX_CHANNELS; channel++) {
         uint8_t channel_greycoded = (channel >> 1) ^ channel;
         select_mux(channel_greycoded);
-        for (uint8_t mux = 0; mux < MUXES; mux++) {
+        for (uint8_t mux = 0; mux < 5; mux++) {
             uint8_t current_row = mux_index[mux][channel_greycoded].row;
             uint8_t current_col = mux_index[mux][channel_greycoded].col;
 
@@ -36,7 +36,6 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
             key->value = analogReadPin(pin);
 
             matrix_read_cols_static_actuation(&current_matrix[current_row], current_col, key);
-            break;
         }
     }
     return memcmp(previous_matrix, current_matrix, sizeof(previous_matrix)) != 0;
