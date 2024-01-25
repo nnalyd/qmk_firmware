@@ -19,8 +19,7 @@ typedef struct {
     /* For individual analog key data */
     uint16_t current;
     uint16_t max;
-    uint16_t extremum;
+    uint16_t actuation;
     bool continuous_dynamic_actuation;
 } analog_key_t;
 extern analog_key_t keys[MATRIX_ROWS][MATRIX_COLS];
-

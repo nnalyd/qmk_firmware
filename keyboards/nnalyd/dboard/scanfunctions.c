@@ -2,10 +2,6 @@
 #include "analog.h"
 #include "multiplexer.h"
 
-void update_extremum(analog_key_t *key) {
-    key->extremum = key->current;
-}
-
 void register_key(matrix_row_t *current_row, uint8_t current_col) {
     *current_row |= (1 << current_col);
 }
@@ -31,33 +27,32 @@ void matrix_read_cols_continuous_dynamic_actuation(matrix_row_t *current_row, ui
         if (*current_row & (1 << current_col)) {
             /* Key is pressed
             Is key still moving down? */
-            if (key->current > key->extremum) {
-                update_extremum(key);
-
-            } else if (key->current < key->extremum - 10) {
+            if (key->current < key->actuation) {
+                key->actuation = key->current;
+            } else if (key->current > key->actuation + 20) {
                 /* Has key moved up enough to be released? */
                 deregister_key(current_row, current_col);
-                update_extremum(key);
+                key->actuation = key->current;
             }
         } else {
             /* Key is not pressed
             Is the key still moving up? */
-            if (key->current < key->extremum) {
-                update_extremum(key);
-            } else if (key->current > key->extremum + 10) {
+            if (key->current > key->actuation) {
+                key->actuation = key->current;
+            } else if (key->current < key->actuation - 20) {
                 /* Has key moved down enough to be pressed? */
                 register_key(current_row, current_col);
-                update_extremum(key);
+                key->actuation = key->current;
             }
         }
-        if (key->current == key->max) {
+        if (key->current > (key->max - 20)) {
             deregister_key(current_row, current_col);
-            update_extremum(key);
+            key->actuation = key->current;
             key->continuous_dynamic_actuation = false;
         }
-    } else if (key->current > (key->max - 5)) {
+    } else if (key->current < (key->max - 20)) {
         register_key(current_row, current_col);
-        update_extremum(key);
+        key->actuation = key->current;
         key->continuous_dynamic_actuation = true;
     }
 }

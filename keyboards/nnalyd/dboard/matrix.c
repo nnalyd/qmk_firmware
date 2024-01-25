@@ -41,8 +41,8 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
                 key->max = key->current;
             }
 
-            matrix_read_cols_static_actuation(&current_matrix[current_row], current_col, key);
-            //matrix_read_cols_continuous_dynamic_actuation(&current_matrix[current_row], current_col, key);
+            //matrix_read_cols_static_actuation(&current_matrix[current_row], current_col, key);
+            matrix_read_cols_continuous_dynamic_actuation(&current_matrix[current_row], current_col, key);
         }
     }
     return memcmp(previous_matrix, current_matrix, sizeof(previous_matrix)) != 0;
