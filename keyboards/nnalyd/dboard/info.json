@@ -5,20 +5,20 @@
     "processor": "STM32G474",
     "bootloader": "stm32-dfu",
     "features": {
-        "bootmagic": false,
+        "bootmagic": true,
         "mousekey": false,
         "extrakey": false,
-        "console": true,
+        "console": false,
         "uniode": false,
         "command": false,
         "nkro": true,
         "rgb_matrix": false,
         "oled": false,
-        "deferred_exec": true,
+        "deferred_exec": false,
         "audio": false
     },
     "qmk": {
-      "tap_keycode_delay": 10
+      "tap_keycode_delay": 0
     },
     "debounce": 0,
     "build": {

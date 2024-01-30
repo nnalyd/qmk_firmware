@@ -13,16 +13,18 @@ SPDX-License-Identifier: GPL-2.0-or-later */
 
 analog_config g_config = {
     .mode = static_actuation,
-    .actuation_point = 32,
-    .press_sensitivity = 32,
-    .release_sensitivity = 32,
-    .press_hysteresis = 0,
-    .release_hysteresis = 5
+    .actuation_point = 20,
+    .release_point = 20,
+    .press_sensitivity = 30, // check these values based off one we're using
+    .release_sensitivity = 30, // forgot what they were
 };
 
 #ifdef BOOTMAGIC_ENABLE
+
 void bootmagic_lite(void) {
-    // TODO: Add RAW to keystruct?
+    if (analogReadPin(matrix_pins[BOOTMAGIC_LITE_ROW][BOOTMAGIC_LITE_COLUMN]) < 350) {
+        bootloader_jump();
+    }
 }
 #endif
 

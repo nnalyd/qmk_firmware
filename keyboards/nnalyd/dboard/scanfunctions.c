@@ -29,7 +29,7 @@ void matrix_read_cols_continuous_dynamic_actuation(matrix_row_t *current_row, ui
             Is key still moving down? */
             if (key->current < key->actuation) {
                 key->actuation = key->current;
-            } else if (key->current > key->actuation + 20) {
+            } else if (key->current > key->actuation + g_config.release_sensitivity) { 
                 /* Has key moved up enough to be released? */
                 deregister_key(current_row, current_col);
                 key->actuation = key->current;
@@ -39,18 +39,18 @@ void matrix_read_cols_continuous_dynamic_actuation(matrix_row_t *current_row, ui
             Is the key still moving up? */
             if (key->current > key->actuation) {
                 key->actuation = key->current;
-            } else if (key->current < key->actuation - 20) {
+            } else if (key->current < key->actuation - g_config.press_sensitivity) { 
                 /* Has key moved down enough to be pressed? */
                 register_key(current_row, current_col);
                 key->actuation = key->current;
             }
         }
-        if (key->current > (key->max - 20)) {
+        if (key->current > (key->max - g_config.release_point)) {
             deregister_key(current_row, current_col);
             key->actuation = key->current;
             key->continuous_dynamic_actuation = false;
         }
-    } else if (key->current < (key->max - 20)) {
+    } else if (key->current < (key->max - g_config.actuation_point)) {
         register_key(current_row, current_col);
         key->actuation = key->current;
         key->continuous_dynamic_actuation = true;
